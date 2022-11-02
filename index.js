@@ -30,3 +30,9 @@ const enemy = new Sprite({
 
 player.draw();
 enemy.draw();
+
+function animate() {
+    requestAnimationFrame(animate);
+}
+
+animate()
