@@ -33,7 +33,15 @@ const player = new Fighter({
     offset: {
         x: 0,
         y: 0
-    }
+    },
+    imageSrc: './img/samurai/Idle.png',
+    framesMax: 8,
+    scale: 2.5,
+    offset: {
+        x: 215,
+        y: 155
+    },
+    framesSpeed: 7
 });
 
 const enemy = new Fighter({
@@ -49,7 +57,15 @@ const enemy = new Fighter({
     offset: {
         x: -50,
         y: 0
-    }
+    },
+    imageSrc: './img/ninja/Idle.png',
+    framesMax: 4,
+    scale: 2.5,
+    offset: {
+        x: 215,
+        y: 170
+    },
+    framesSpeed: 8
 });
 
 const keys = {
