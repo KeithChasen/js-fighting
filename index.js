@@ -41,7 +41,17 @@ const player = new Fighter({
         x: 215,
         y: 155
     },
-    framesSpeed: 7
+    framesSpeed: 7,
+    sprites: {
+        idle: {
+            imageSrc: './img/samurai/Idle.png',
+            framesMax: 8,
+        },
+        run: {
+            imageSrc: './img/samurai/Run.png',
+            framesMax: 8,
+        },
+    }
 });
 
 const enemy = new Fighter({
@@ -65,7 +75,17 @@ const enemy = new Fighter({
         x: 215,
         y: 170
     },
-    framesSpeed: 8
+    framesSpeed: 8,
+    sprites: {
+        idle: {
+            imageSrc: './img/ninja/Idle.png',
+            framesMax: 4,
+        },
+        run: {
+            imageSrc: './img/ninja/Run.png',
+            framesMax: 8,
+        },
+    }
 });
 
 const keys = {
@@ -102,13 +122,15 @@ function animate() {
     enemy.update();
 
     player.velocity.x = 0;
-    enemy.velocity.x = 0;
+    player.image = player.sprites.idle.image;
 
     // player movement
     if (keys.a.pressed && player.lastKey === 'a') {
         player.velocity.x = -5;
+        player.image = player.sprites.run.image;
     } else if (keys.d.pressed && player.lastKey === 'd') {
         player.velocity.x = 5;
+        player.image = player.sprites.run.image;
     }
 
     if (keys.w.pressed && player.lastKey === 'w' && player.position.y + player.height >= canvas.height) {
@@ -116,9 +138,14 @@ function animate() {
     }
 
     // enemy movement
+    enemy.velocity.x = 0;
+    enemy.image = enemy.sprites.idle.image;
+
     if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
         enemy.velocity.x = -5;
+        enemy.image = enemy.sprites.run.image;
     } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight') {
+        enemy.image = enemy.sprites.run.image;
         enemy.velocity.x = 5;
     }
 
