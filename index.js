@@ -30,13 +30,17 @@ const player = new Fighter({
         x: 0,
         y: 0
     },
-    offset: {
-        x: 0,
-        y: 0
-    },
     imageSrc: './img/samurai/Idle.png',
     framesMax: 8,
     scale: 2.5,
+    attackBox: {
+        offset: {
+            x: 100,
+            y: 50
+        },
+        width: 100,
+        height: 50
+    },
     offset: {
         x: 215,
         y: 155
@@ -76,9 +80,13 @@ const enemy = new Fighter({
         y: 0
     },
     color: 'blue',
-    offset: {
-        x: -50,
-        y: 0
+    attackBox: {
+        offset: {
+            x: -100,
+            y: 50
+        },
+        width: 100,
+        height: 50
     },
     imageSrc: './img/ninja/Idle.png',
     framesMax: 4,
@@ -208,12 +216,20 @@ function animate() {
             rectangle1: player,
             rectangle2: enemy
         }) &&
-        player.isAttacking
+        player.isAttacking &&
+        player.framesCurrent === 4
     ) {
         console.log('player hit!')
         player.isAttacking = false;
         enemy.health -= 20;
         document.querySelector('#enemyHealth').style.width = `${enemy.health}%`;
+    }
+
+    if (
+        player.isAttacking &&
+        player.framesCurrent === 4
+    ) {
+        player.isAttacking = false;
     }
 
     // enemy attacks
@@ -222,12 +238,20 @@ function animate() {
             rectangle1: enemy,
             rectangle2: player
         }) &&
-        enemy.isAttacking
+        enemy.isAttacking &&
+        enemy.framesCurrent === 2
     ) {
         console.log('enemy hit!')
         enemy.isAttacking = false;
         player.health -= 20;
         document.querySelector('#playerHealth').style.width =  `${player.health}%`;
+    }
+
+    if (
+        enemy.isAttacking &&
+        enemy.framesCurrent === 2
+    ) {
+        enemy.isAttacking = false;
     }
 
     // end game if some player ran out of health
