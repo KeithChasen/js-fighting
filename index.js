@@ -97,6 +97,18 @@ const enemy = new Fighter({
             imageSrc: './img/ninja/Run.png',
             framesMax: 8,
         },
+        jump: {
+            imageSrc: './img/ninja/Jump.png',
+            framesMax: 2,
+        },
+        fall: {
+            imageSrc: './img/ninja/Fall.png',
+            framesMax: 2,
+        },
+        attack1: {
+            imageSrc: './img/ninja/Attack1.png',
+            framesMax: 4,
+        },
     }
 });
 
@@ -164,20 +176,29 @@ function animate() {
 
     // enemy movement
     enemy.velocity.x = 0;
-    enemy.image = enemy.sprites.idle.image;
 
     if (keys.ArrowLeft.pressed && enemy.lastKey === 'ArrowLeft') {
         enemy.velocity.x = -5;
-        enemy.image = enemy.sprites.run.image;
+        enemy.switchSprite('run');
     } else if (keys.ArrowRight.pressed && enemy.lastKey === 'ArrowRight') {
-        enemy.image = enemy.sprites.run.image;
+        enemy.switchSprite('run');
         enemy.velocity.x = 5;
+    } else {
+        enemy.switchSprite('idle');
     }
 
     if (
         keys.ArrowUp.pressed && enemy.lastKey === 'ArrowUp'
     ) {
         enemy.velocity.y = -15;
+    }
+
+    if (enemy.velocity.y < 0) {
+        enemy.switchSprite('jump');
+    }
+
+    if (enemy.velocity.y > 0) {
+        enemy.switchSprite('fall');
     }
 
     // detect for collision
