@@ -51,6 +51,18 @@ const player = new Fighter({
             imageSrc: './img/samurai/Run.png',
             framesMax: 8,
         },
+        jump: {
+            imageSrc: './img/samurai/Jump.png',
+            framesMax: 2,
+        },
+        fall: {
+            imageSrc: './img/samurai/Fall.png',
+            framesMax: 2,
+        },
+        attack1: {
+            imageSrc: './img/samurai/Attack1.png',
+            framesMax: 6,
+        },
     }
 });
 
@@ -122,19 +134,32 @@ function animate() {
     enemy.update();
 
     player.velocity.x = 0;
-    player.image = player.sprites.idle.image;
 
     // player movement
     if (keys.a.pressed && player.lastKey === 'a') {
         player.velocity.x = -5;
-        player.image = player.sprites.run.image;
+        player.switchSprite('run');
     } else if (keys.d.pressed && player.lastKey === 'd') {
         player.velocity.x = 5;
-        player.image = player.sprites.run.image;
+        player.switchSprite('run');
+    } else {
+        player.switchSprite('idle');
     }
 
-    if (keys.w.pressed && player.lastKey === 'w' && player.position.y + player.height >= canvas.height) {
-        player.velocity.y = -20;
+    if (
+        keys.w.pressed && player.lastKey === 'w'
+    ) {
+        player.velocity.y = -15;
+        keys.w.pressed = false;
+        player.lastKey = '';
+    }
+
+    if (player.velocity.y < 0) {
+        player.switchSprite('jump');
+    }
+
+    if (player.velocity.y > 0) {
+        player.switchSprite('fall');
     }
 
     // enemy movement
@@ -149,8 +174,10 @@ function animate() {
         enemy.velocity.x = 5;
     }
 
-    if (keys.ArrowUp.pressed && enemy.lastKey === 'ArrowUp' && enemy.position.y + enemy.height >= canvas.height) {
-        enemy.velocity.y = -20;
+    if (
+        keys.ArrowUp.pressed && enemy.lastKey === 'ArrowUp'
+    ) {
+        enemy.velocity.y = -15;
     }
 
     // detect for collision
