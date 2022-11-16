@@ -23,7 +23,7 @@ const shop = new Sprite({
 
 const player = new Fighter({
     position: {
-        x: 0,
+        x: 10,
         y: 0
     },
     velocity: {
@@ -35,7 +35,7 @@ const player = new Fighter({
     scale: 2.5,
     attackBox: {
         offset: {
-            x: 100,
+            x: 90,
             y: 50
         },
         width: 100,
@@ -67,6 +67,10 @@ const player = new Fighter({
             imageSrc: './img/samurai/Attack1.png',
             framesMax: 6,
         },
+        takeHit: {
+            imageSrc: './img/samurai/Take hit - w s.png',
+            framesMax: 4,
+        },
     }
 });
 
@@ -82,7 +86,7 @@ const enemy = new Fighter({
     color: 'blue',
     attackBox: {
         offset: {
-            x: -100,
+            x: -120,
             y: 50
         },
         width: 100,
@@ -116,6 +120,10 @@ const enemy = new Fighter({
         attack1: {
             imageSrc: './img/ninja/Attack1.png',
             framesMax: 4,
+        },
+        takeHit: {
+            imageSrc: './img/ninja/Take hit.png',
+            framesMax: 3,
         },
     }
 });
@@ -220,8 +228,8 @@ function animate() {
         player.framesCurrent === 4
     ) {
         console.log('player hit!')
+        enemy.takeHit();
         player.isAttacking = false;
-        enemy.health -= 20;
         document.querySelector('#enemyHealth').style.width = `${enemy.health}%`;
     }
 
@@ -243,8 +251,8 @@ function animate() {
     ) {
         console.log('enemy hit!')
         enemy.isAttacking = false;
-        player.health -= 20;
-        document.querySelector('#playerHealth').style.width =  `${player.health}%`;
+        player.takeHit();
+        document.querySelector('#playerHealth').style.width = `${player.health}%`;
     }
 
     if (
